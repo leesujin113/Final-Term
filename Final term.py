@@ -1,47 +1,19 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[36]:
-
-
 # 1. Data Collection
     ## Collect stock data from Twelve Data
-
-
-# In[3]:
-
 
 import sys
 sys.module_version = None
 
-
-# In[4]:
-
-
-get_ipython().system('pip install twelvedata pandas')
-
-
-# In[52]:
-
+_ipython().system('pip install twelvedata pandas')
 
 from twelvedata import TDClient
 import pandas as pd
 
-
-# In[53]:
-
-
 td = TDClient(apikey="c247c7bbc1f9434bb04c60ea0fa0fef4")
-
-
-# In[55]:
-
 
 print(td)
 dir(td) 
 
-
-# In[118]:
 
 
 # Top 6 US semiconductor company tickers (Basic plan compatible)
