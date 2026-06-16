@@ -62,6 +62,9 @@ You can run the workflow in either of these ways:
 ### 6. Start Airflow locally
 ```bash
 airflow standalone
+
+- Username: admin
+- Password: NCEfFDqKzWGkFgZm
 ```
 
 Then open the Airflow UI, turn on the `semiconductor_etl` DAG, and let it run on schedule.
