@@ -10,8 +10,8 @@ It collects daily market data, cleans and transforms it, loads the data into Pos
 - **Twelve Data API** → source of daily OHLCV data for INTC, NVDA, QCOM, MU, AVGO, AMD  
 - **Python ETL (`Final_term.py`)** → extract, clean, feature engineer, load to DB  
 - **PostgreSQL (`stockdata` table)** → central storage for processed records  
-- **Airflow DAG (`airflow_etl-3.py`)** → `collect → clean → store → alert` scheduled at 07:00 every day  
-- **Streamlit app (`dashboard-2.py`)** → filters, charts, KPIs, regression model, latest predictions
+- **Airflow DAG (`airflow_etl.py`)** → `collect → clean → store → alert` scheduled at 07:00 every day  
+- **Streamlit app (`dashboard.py`)** → filters, charts, KPIs, regression model, latest predictions
 
 ## Features
 
