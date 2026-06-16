@@ -28,7 +28,6 @@ The pipeline collects market data, cleans and transforms it, stores it in a Post
 ```bash
 .
 ├── Final-term.ipynb
-├── Final-term-1.py
 └── README.md
 ```
 
