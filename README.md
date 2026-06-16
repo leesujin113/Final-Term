@@ -1,99 +1,47 @@
-# Semiconductor ETL Project
-
 # Semiconductor Stock ETL Pipeline
 
 ## Overview
-This project builds an automated ETL pipeline for U.S. semiconductor stock data using the Twelve Data API, Python, PostgreSQL, and Apache Airflow.  
-The pipeline collects market data, cleans and transforms it, stores it in a PostgreSQL database, schedules recurring runs with Airflow, sends completion alerts by email, and supports downstream analysis and predictive modeling.
 
-## Pipeline
-1. **Extract**: Collect daily stock data for selected semiconductor companies (INTC, NVDA, QCOM, MU, AVGO, AMD) from the Twelve Data API.
-2. **Transform**: Clean the raw dataset by removing missing values, filtering invalid prices, normalizing close prices, calculating returns, standardizing returns, and encoding ticker symbols.
-3. **Load**: Store the processed data in a PostgreSQL table named `stock_data`.
-4. **Orchestrate**: Run the workflow with an Airflow DAG scheduled for daily execution at 7:00 AM.
-5. **Notify**: Send a completion email with `EmailOperator` after the ETL job finishes successfully.
-6. **Analyze**: Explore the cleaned data with Python and visualization libraries.
-7. **Model**: Build a regression model with scikit-learn to support stock price prediction.
+This project implements an automated ETL pipeline for U.S. semiconductor stocks using the Twelve Data API, Python, PostgreSQL, Apache Airflow, and Streamlit.  
+It collects daily market data, cleans and transforms it, loads the data into PostgreSQL, automates recurring ETL with Airflow (including email alerts), and exposes an interactive Streamlit dashboard with basic next‑day price prediction.
 
-## Tech Stack
-- **Python** – Core language for ETL, analysis, and modeling.
-- **Pandas** – Data cleaning, preprocessing, and feature engineering.
-- **PostgreSQL** – Relational database for storing processed stock data.
-- **Apache Airflow** – Workflow orchestration, scheduling, and email notification.
-- **Matplotlib** – Data visualization and exploratory analysis.
-- **scikit-learn** – Regression modeling and evaluation.
-- **Twelve Data API** – Source of historical stock market data.
+## Architecture
 
-## Project Structure
-```bash
-.
-├── Final-term.ipynb
-└── README.md
-```
+- **Twelve Data API** → source of daily OHLCV data for INTC, NVDA, QCOM, MU, AVGO, AMD  
+- **Python ETL (`Final_term.py`)** → extract, clean, feature engineer, load to DB  
+- **PostgreSQL (`stockdata` table)** → central storage for processed records  
+- **Airflow DAG (`airflow_etl-3.py`)** → `collect → clean → store → alert` scheduled at 07:00 every day  
+- **Streamlit app (`dashboard-2.py`)** → filters, charts, KPIs, regression model, latest predictions
 
-## How to Run
+## Features
 
-### 1. Clone the repository
-```bash
-git clone https://github.com/leesujin113/Final-Term.git
-cd Final-Term
-```
+### ETL & Storage
 
-### 2. Install dependencies
-```bash
-pip install pandas twelvedata sqlalchemy psycopg2-binary matplotlib scikit-learn apache-airflow
-```
+- Fetches up to 90 days of daily data per ticker from the Twelve Data API  
+- Removes missing values and invalid prices (`close <= 0`)  
+- Creates normalized close (`closenormalized`) and daily return (`return`) features  
+- Writes cleaned records into PostgreSQL (`semiconductor` DB, `stockdata` table)
 
-### 3. Configure the Twelve Data API key
-Replace `YOUR_API_KEY` in the code with your valid Twelve Data API key before running the data collection step.
+### Automation (Airflow)
 
-### 4. Set up PostgreSQL
-Create a PostgreSQL database named `semiconductor` and make sure the connection string matches your local setup:
+- DAG ID: `airflow_etl`  
+- Schedule: `0 7 * * *` (every day at 07:00)  
+- Tasks:
+  - `collect` – download raw CSV from Twelve Data
+  - `clean` – clean and transform raw data
+  - `store` – append cleaned data into PostgreSQL
+  - `alert` – send completion email via Gmail SMTP
 
-```python
-postgresql://postgres:0241@localhost:5432/semiconductor
-```
+### Dashboard (Streamlit)
 
-### 5. Run the notebook or script
-You can run the workflow in either of these ways:
-- Execute `Final-term.ipynb` step by step in Jupyter Notebook.
-- Place `Final-term-1.py` (the Airflow DAG) in your Airflow `dags/` directory.
-
-### 6. Start Airflow locally
-```bash
-airflow standalone
-
-- Username: admin
-- Password: NCEfFDqKzWGkFgZm
-```
-
-Then open the Airflow UI, turn on the `airflow_etl` DAG, and let it run on schedule.
-
-### 7. Schedule
-The DAG is configured to run every day at 7:00 AM:
-
-```python
-schedule = "0 7 * * *"
-```
-
-### 8. Email alert
-When the ETL pipeline finishes successfully, Airflow sends a notification email using `EmailOperator` to the configured recipient address.
-
-### 9. Check the Streamlit Dashboard
-
-```terminal
-streamlit run /Users/sujin/Downloads/dashboard.py
-```
-
-## Output
-- Raw semiconductor stock dataset collected from the API.
-- Cleaned and transformed dataset with engineered features.
-- PostgreSQL table containing processed stock records.
-- Airflow-managed scheduled ETL workflow.
-- Visual analysis plots and a regression model for prediction tasks.
-
-## Future Improvements
-- Move API keys and database credentials to environment variables.
-- Add logging, retry policies, and monitoring/alerting.
-- Deploy Airflow on a dedicated server or cloud VM for always-on scheduling.
-- Extend the modeling pipeline with more features and model types.
+- Sidebar filters for ticker selection and date range  
+- KPIs: row count, number of companies, average close price  
+- Charts:
+  - Average close price by company (bar)
+  - Closing price trend over time (line)  
+- Raw data table for the filtered subset  
+- Linear regression model:
+  - Features: `closenormalized`, `return`
+  - Target: next‑day close (`nextclose`)
+  - Shows MSE, R², coefficients, intercept, and actual vs predicted scatter plot  
+- 
