@@ -67,7 +67,7 @@ airflow standalone
 - Password: NCEfFDqKzWGkFgZm
 ```
 
-Then open the Airflow UI, turn on the `semiconductor_etl` DAG, and let it run on schedule.
+Then open the Airflow UI, turn on the `airflow_etl` DAG, and let it run on schedule.
 
 ### 7. Schedule
 The DAG is configured to run every day at 7:00 AM:
