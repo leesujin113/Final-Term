@@ -76,6 +76,10 @@ schedule = "0 7 * * *"
 ### 8. Email alert
 When the ETL pipeline finishes successfully, Airflow sends a notification email using `EmailOperator` to the configured recipient address.
 
+### 9. Check the Streamlit Dashboard
+```streamlit run yourscript.py
+```
+
 ## Output
 - Raw semiconductor stock dataset collected from the API.
 - Cleaned and transformed dataset with engineered features.
