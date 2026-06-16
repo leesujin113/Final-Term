@@ -77,7 +77,9 @@ schedule = "0 7 * * *"
 When the ETL pipeline finishes successfully, Airflow sends a notification email using `EmailOperator` to the configured recipient address.
 
 ### 9. Check the Streamlit Dashboard
-```streamlit run yourscript.py
+
+```terminal
+streamlit run yourscript.py
 ```
 
 ## Output
