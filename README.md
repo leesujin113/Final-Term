@@ -82,7 +82,7 @@ When the ETL pipeline finishes successfully, Airflow sends a notification email 
 ### 9. Check the Streamlit Dashboard
 
 ```terminal
-streamlit run yourscript.py
+streamlit run dashboarrd.py
 ```
 
 ## Output
