@@ -1,47 +1,34 @@
-# Semiconductor Stock ETL Pipeline
+# Semiconductor Stock BI Pipeline
 
-## Overview
+### MADSC301 — Business Intelligence Final Assignment
 
-This project implements an automated ETL pipeline for U.S. semiconductor stocks using the Twelve Data API, Python, PostgreSQL, Apache Airflow, and Streamlit.  
-It collects daily market data, cleans and transforms it, loads the data into PostgreSQL, automates recurring ETL with Airflow (including email alerts), and exposes an interactive Streamlit dashboard with basic next‑day price prediction.
+This project was developed for the MADSC301 Business Intelligence final assignment and builds a complete BI pipeline from data collection to analysis and visualization.[file:25]  
+The project uses the Twelve Data API, Apache Airflow, PostgreSQL, and Streamlit to create an end-to-end workflow for semiconductor stock analysis.[file:26][file:27]
 
-## Architecture
+---
 
-- **Twelve Data API** → source of daily OHLCV data for INTC, NVDA, QCOM, MU, AVGO, AMD  
-- **Python ETL (`Final_term.py`)** → extract, clean, feature engineer, load to DB  
-- **PostgreSQL (`stockdata` table)** → central storage for processed records  
-- **Airflow DAG (`airflow_etl.py`)** → `collect → clean → store → alert` scheduled at 07:00 every day  
-- **Streamlit app (`dashboard.py`)** → filters, charts, KPIs, regression model, latest predictions
+## Project Objective
 
-## Features
+The main objective of this project is to monitor and analyze short-term trends in major U.S. semiconductor stocks through an automated ETL pipeline and interactive dashboard.[file:25][file:26][file:27]  
+This project follows the assignment requirement to build a complete ETL/ELT pipeline including data collection, cleaning, storage, orchestration, and visualization.[file:25]
 
-### ETL & Storage
+---
 
-- Fetches up to 90 days of daily data per ticker from the Twelve Data API  
-- Removes missing values and invalid prices (`close <= 0`)  
-- Creates normalized close (`closenormalized`) and daily return (`return`) features  
-- Writes cleaned records into PostgreSQL (`semiconductor` DB, `stockdata` table)
+## Business Case
 
-### Automation (Airflow)
+Semiconductor companies are among the most important players in the global technology market, and their stock performance is closely linked to innovation, AI demand, and supply chain conditions.  
+This project helps track price trends across major semiconductor companies and provides a simple business intelligence solution for comparing stock performance over time.[file:26][file:27]
 
-- DAG ID: `airflow_etl`  
-- Schedule: `0 7 * * *` (every day at 07:00)  
-- Tasks:
-  - `collect` – download raw CSV from Twelve Data
-  - `clean` – clean and transform raw data
-  - `store` – append cleaned data into PostgreSQL
-  - `alert` – send completion email via Gmail SMTP
+The selected companies are:
 
-### Dashboard (Streamlit)
+- Intel (`INTC`)[file:26]
+- NVIDIA (`NVDA`)[file:26]
+- Qualcomm (`QCOM`)[file:26]
+- Micron (`MU`)[file:26]
+- Broadcom (`AVGO`)[file:26]
+- AMD (`AMD`)[file:26]
 
-- Sidebar filters for ticker selection and date range  
-- KPIs: row count, number of companies, average close price  
-- Charts:
-  - Average close price by company (bar)
-  - Closing price trend over time (line)  
-- Raw data table for the filtered subset  
-- Linear regression model:
-  - Features: `closenormalized`, `return`
-  - Target: next‑day close (`nextclose`)
-  - Shows MSE, R², coefficients, intercept, and actual vs predicted scatter plot  
-- 
+---
+
+## Project Architecture
+
