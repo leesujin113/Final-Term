@@ -46,6 +46,8 @@ Streamlit Dashboard
 ```
 
 This architecture reflects the required pipeline structure of data source → storage → visualization.
+<img width="1774" height="887" alt="generated-image (1)" src="https://github.com/user-attachments/assets/bfac9ec5-0358-416e-9a0f-1d66ecf91998" />
+
 
 ---
 
