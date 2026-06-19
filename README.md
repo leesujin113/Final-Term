@@ -186,7 +186,7 @@ and then place `airflow_etl.py` inside the Airflow DAGs folder and trigger the D
 ### 5. Run the dashboard
 
 ```bash
-streamlit run dashboard.py
+streamlit run /Users/sujin/Downloads/dashboard.py
 ```
 
 ---
