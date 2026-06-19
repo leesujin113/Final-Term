@@ -177,7 +177,11 @@ Before running the project, update the following credentials:
 
 ### 4. Run the ETL pipeline
 
-If using Airflow, place `airflow_etl.py` inside the Airflow DAGs folder and trigger the DAG from the Airflow UI.
+If using Airflow,
+```bash
+airflow standalone
+```
+and then place `airflow_etl.py` inside the Airflow DAGs folder and trigger the DAG from the Airflow UI.
 
 ### 5. Run the dashboard
 
